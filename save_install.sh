@@ -3,6 +3,9 @@
 # Path to file to save the package names
 SAVE_FILE_PATH="/home/max/dotfiles/packages.txt"
 
+# Get the directory containing the save file
+SAVE_FILE_DIR=$(dirname "$SAVE_FILE_PATH")
+
 # Check if SAVE_FILE_PATH is a valid file
 if [ ! -f "$SAVE_FILE_PATH" ]; then
   echo "Error: Invalid save file path '$SAVE_FILE_PATH'. Aborting."
@@ -25,14 +28,18 @@ else
     echo "$1" >> "$SAVE_FILE_PATH"
     echo >> "$SAVE_FILE_PATH"  # Add an empty line
 
+    # Change to the save file directory
+    cd "$SAVE_FILE_DIR"
+
     # Add, commit, and push changes to the repository
     git add .
     git commit -m "Saved package: $1"
     git push
+
+    # Navigate back to the script's original directory
+    cd -
   fi
 fi
-
-
 
 # Install the package
 sudo apt install "$1"
