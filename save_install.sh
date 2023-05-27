@@ -15,24 +15,28 @@ if ! apt-cache show "$1" >/dev/null 2>&1; then
   exit 1
 fi
 
-# Change to save file directory
-cd "$(dirname "$SAVE_FILE_PATH")"
-
-# Check if package name exists in the file
+# Check if package name is already in the save file
 if grep -Fxq "$1" "$SAVE_FILE_PATH"; then
-  echo "Package name already exists in $SAVE_FILE_PATH. Skipping..."
+  echo "Package name '$1' is already saved in the file. Skipping..."
 else
-  echo "$1" >> "$SAVE_FILE_PATH"
-  echo >> "$SAVE_FILE_PATH"  # Add an empty line
+  # Prompt user to save the package name
+  read -p "Do you want to save the package name? (y/n): " response
+  if [[ $response =~ ^[Yy]$ ]]; then
+    echo "$1" >> "$SAVE_FILE_PATH"
+    echo >> "$SAVE_FILE_PATH"  # Add an empty line
 
-  # Add, commit, and push changes to the repository
-  git add .
-  git commit -m "Saved package: $1"
-  git push
+    # Add, commit, and push changes to the repository
+    git add .
+    git commit -m "Saved package: $1"
+    git push
+  fi
 fi
+
+
 
 # Install the package
 sudo apt install "$1"
 
 # Navigate back to the directory where the script was called from
 cd -
+
