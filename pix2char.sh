@@ -4,7 +4,7 @@
 gnome-screenshot -a -f /tmp/pix2char.png
 
 # Perform OCR on the screenshot using Tesseract and save the output to a variable
-extracted_text=$(tesseract /tmp/screenshot.png - -l eng 2>/dev/null)
+extracted_text=$(tesseract /tmp/pix2char.png - -l eng 2>/dev/null)
 
 # Save the extracted text to the clipboard
 echo "$extracted_text" | xclip -selection c
