@@ -1,13 +1,10 @@
 #!/bin/bash
 
-# Take a screenshot and save it as 'screenshot.png'
-gnome-screenshot -a -f screenshot.png
+# Take a screenshot and save it in the /tmp directory
+gnome-screenshot -a -f /tmp/pix2char.png
 
-# Perform OCR on the screenshot using Tesseract and save the output to 'output.txt'
-tesseract screenshot.png output -l eng
-
-# Extract the text and save it to a variable
-extracted_text=$(cat output.txt | sed 's/.*: //')
+# Perform OCR on the screenshot using Tesseract and save the output to a variable
+extracted_text=$(tesseract /tmp/screenshot.png - -l eng 2>/dev/null)
 
 # Save the extracted text to the clipboard
 echo "$extracted_text" | xclip -selection c
