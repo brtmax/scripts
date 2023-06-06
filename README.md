@@ -1,5 +1,7 @@
 # scripts
 
+pix2char.sh is supposed to do OCR with handwritten text as well, but using tesseract this is not possible. Would be doable using things such as GoogleCloudVision API,
+but this would be costly. I will try to train my own model once I have more time. 
 
 save_install.sh
 I am sure there is a better solution for this somewhere, but here we are. 
